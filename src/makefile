@@ -53,7 +53,7 @@ wmon.deb: $(PROGS)
 	cp wmon DEB/usr/sbin/wmon
 	gzip -c DEBFILES/wmon.1 > DEB/usr/share/man/man1/wmon.1.gz
 	
-	echo "Package: wmon\nVersion: 1.0\nSection: net\nPriority: optional\nArchitecture: amd64\nDepends: libpthread-stubs0, libtrace3 (>= 3), libncurses5 (>= 5), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: David Garcia <dagavi@gmail.com>\nHomepage: http://---.com/\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
+	echo "Package: wmon\nVersion: 1.0\nSection: net\nPriority: optional\nArchitecture: i386\nDepends: libpthread-stubs0, libtrace3 (>= 3), libncurses5 (>= 5), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: David Garcia <dagavi@gmail.com>\nHomepage: http://---.com/\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
 	
 	cd DEB; rm -f DEBIAN/md5sums; md5sum `find . -type f | awk '/.\// { print substr($$0, 3) }'` > DEBIAN/md5sums
 	fakeroot dpkg-deb --build DEB
@@ -69,7 +69,7 @@ wmonGUI.deb: wmonGUI
 	cp wmonGUI DEB/usr/sbin/wmon
 	gzip -c DEBFILES/wmon.1 > DEB/usr/share/man/man1/wmon.1.gz
 	
-	echo "Package: wmon\nVersion: 1.0-GUI\nSection: net\nPriority: optional\nArchitecture: amd64\nDepends: libqtgui4 (>= 4.3), libpthread-stubs0, libtrace3 (>= 3), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: David Garcia <dagavi@gmail.com>\nHomepage: http://---.com/\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
+	echo "Package: wmon\nVersion: 1.0-GUI\nSection: net\nPriority: optional\nArchitecture: i386\nDepends: libqtgui4 (>= 4.3), libpthread-stubs0, libtrace3 (>= 3), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: David Garcia <dagavi@gmail.com>\nHomepage: http://---.com/\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
 	
 	echo "[Desktop Entry]\nType=Application\nVersion=1.0-GUI\nName=wmon\nGenericName=Wireless Network Monitor\nComment=Wireless Network Monitor\nIcon=gnome-nettool\nExec=gksudo wmon\nTerminal=false\nCategories=GNOME;Network;\nEncoding=UTF-8" > DEB/usr/share/applications/wmon.desktop
 	
