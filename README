@@ -1,11 +1,17 @@
 -- Libraries
 The program depends of the next libraries. All of this are on Ubuntu/Debian repositories.
- · trace3
- · pcap0.8
- · iw30
- · pthread
- · ncurses5
- · qtgui4
+ · pthread: libpthread-stubs0-dev
+ · trace3: libtrace3-dev (>= 3)
+ · ncurses5: libncurses5-dev (>= 5)
+ · iw30: libiw-dev
+ · pcap0.8: libpcap-dev (>= 1)
+ · qtgui4: Included on qt4-dev-tools
+
+The code have dependencies with the next program:
+ · iw: iw (>= 0.9)
+
+To compile the Qt version you need the Qt4 tools:
+ · qt4-dev-tools (>= 4:4.3)
 
 -- Compilation
 For compilate the Qt GUI version run:
