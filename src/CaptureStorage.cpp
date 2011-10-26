@@ -113,24 +113,21 @@ void CaptureStorage::addCapture(const unsigned char *packet, unsigned int len, l
     
     neti->addBeaconInfo(bi);
     
-    if (neti->interval != bi.interval) { // Updates dynamic information: Beacon interval
-        neti->interval = bi.interval;
-        neti->maxPackets = TIMETODISCARD*SECtoMICROSEC/neti->interval; // Change maxPackets
-    }
+    if (neti->getInterval() != bi.interval) neti->setInterval(bi.interval); // Updates dynamic information: Beacon interval
     
     if (newNetwork) {
         netsByChannel[channel].push_back(net);
-        neti->channel = channel;
+        neti->setChannel(channel);
     }
-    else if (neti->channel != channel) {
-        netsByChannel[neti->channel].remove(net);
+    else if (neti->getChannel() != channel) {
+        netsByChannel[neti->getChannel()].remove(net);
         netsByChannel[channel].push_back(net);
-        neti->channel = channel;
+        neti->setChannel(channel);
     }
     
-    neti->wep = wep;
-    neti->wpa = wpa;
-    neti->wpa2 = wpa2;
+    neti->setWEP(wep);
+    neti->setWPA(wpa);
+    neti->setWPA2(wpa2);
 }
 
 void CaptureStorage::startAnalyzer() {

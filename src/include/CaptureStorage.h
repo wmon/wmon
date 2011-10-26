@@ -90,7 +90,6 @@ public:
     std::list<NetStats> getNetStats(unsigned short channel) const;
 
 private:
-    static const unsigned int SECtoMICROSEC = 1000000;  ///< Constant to convert second to microseconds
     static const unsigned int TIMETODISCARD = 5;        ///< Time, in seconds, that is used to compute the stats (use the last TIMETODISCARD seconds of beacons)
     static const unsigned int analyzerSleepTime = 1;    ///< Time that the analyzer thread sleep after check if runAnalyzer is true or compute the stats.
 

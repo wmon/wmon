@@ -39,30 +39,50 @@ class NetInfo {
 public:
     static const unsigned int SECtoMICROSEC = 1000000;  ///< Constant to convert seconds to microseconds
     static const int DELAY = 20;  ///< A packet is considered delayed after that time in microseconds
-
-    // NetDynInfo
-    unsigned short channel; ///< Network channel
-    unsigned int interval;  ///< Network beacon interval
-
-    // NetStats
-    time_t statsTimestamp;  ///< Timestamp of the stats
-    
-    double delay;           ///< Network beacon delay (assume that half of the lost packets are packets delayed)
-    double lastDelay;       ///< Previous value of delay
-    double lost;            ///< Network beacon loss ratio
-    double weightedDelay;   ///< Network beacon delay (assume that the proportion of packets delayed of the lost packets are equal to the proportion of the packets delayed from packets captured)
-    int rssi;               ///< Network RSSI
-    bool ok;                ///< Reliability of this stats
-    unsigned int maxPackets;///< Max packets that we expect to have according to the beacon interval and the calculate stats time (5 seconds of capture)
-    
-    bool wep;   ///< WEP values detected
-    bool wpa;   ///< WPA values detected
-    bool wpa2;  ///< WPA2 values detected
     
     /**
      * Constructor.
      */
     NetInfo();
+    
+    /**
+     * Gets the beacon interval.
+     */
+    unsigned int getInterval() const;
+    
+    /**
+     * Sets the becon interval.
+     *
+     * @param interval Beacon interval
+     */
+    void setInterval(unsigned int interval);
+    
+    /**
+     * Gets the network channel.
+     */
+    unsigned short getChannel() const;
+    
+    /**
+     * Sets the network channel.
+     *
+     * @param channel Channel
+     */
+    void setChannel(unsigned short channel);
+    
+    /**
+     * Sets WEP protection detected.
+     */
+    void setWEP(bool wepDetected);
+    
+    /**
+     * Sets WPA protection detected.
+     */
+    void setWPA(bool wpaDetected);
+    
+    /**
+     * Sets WPA2 protection detected.
+     */
+    void setWPA2(bool wpa2Detected);
     
     /**
      * Compute the stats of the NetInfo.
@@ -93,12 +113,31 @@ public:
     void restartStats();
 
 private:
+    // NetDynInfo
+    unsigned short channel; ///< Network channel
+    unsigned int interval;  ///< Network beacon interval
+
+    // NetStats
+    time_t statsTimestamp;  ///< Timestamp of the stats
+    
+    double delay;           ///< Network beacon delay (assume that half of the lost packets are packets delayed)
+    double lastDelay;       ///< Previous value of delay
+    double lost;            ///< Network beacon loss ratio
+    double weightedDelay;   ///< Network beacon delay (assume that the proportion of packets delayed of the lost packets are equal to the proportion of the packets delayed from packets captured)
+    int rssi;               ///< Network RSSI
+    bool ok;                ///< Reliability of this stats
+    unsigned int maxPackets;///< Max packets that we expect to have according to the beacon interval and the calculate stats time (5 seconds of capture)
+    
+    bool wep;   ///< WEP values detected
+    bool wpa;   ///< WPA values detected
+    bool wpa2;  ///< WPA2 values detected
+
     std::list<BeaconInfo> beacons; ///< List of beacons
 
     // Control information
     unsigned int numPackets;    ///< Number of packets (<= beacons.size())
     unsigned int timeOK;        ///< Counter of times that we compute the statistics without errors
-    unsigned int bestIndex;     ///< Index of the best packet (computed by selectBest())
+    int bestIndex;              ///< Index of the best packet (computed by selectBest())
     std::list<BeaconInfo>::const_iterator best; ///< Iterator of the best packet (computed by selectBest())
     
     // Mutex data

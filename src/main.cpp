@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
 
     vector<string> ifaces = NetManager::list80211Interfaces();
     if (interface.empty() and not ifaces.empty()) interface = ifaces[0];
-    if (interface.empty()) error("Can't select an interface");
+    if (interface.empty()) error("Can't select an interface. The program needs root privileges.");
 
     FileGUI* fileGUI = NULL;
     if (not filePath.empty()) {

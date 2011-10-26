@@ -26,6 +26,37 @@ std::list<const NetInfo*> NetInfo::locks;
 pthread_mutex_t NetInfo::mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t NetInfo::condVar = PTHREAD_COND_INITIALIZER;
 
+NetInfo::NetInfo()
+    : delay(0), lastDelay(0), lost(0), weightedDelay(0), rssi(0), ok(false), maxPackets(0), timeOK(0), bestIndex(-1) {}
+
+unsigned int NetInfo::getInterval() const {
+    return interval;
+}
+
+void NetInfo::setInterval(unsigned int interval) {
+    this->interval = interval;
+}
+
+unsigned short NetInfo::getChannel() const {
+    return channel;
+}
+
+void NetInfo::setChannel(unsigned short channel) {
+    this->channel = channel;
+}
+
+void NetInfo::setWEP(bool wepDetected) {
+    this->wep = wepDetected;
+}
+
+void NetInfo::setWPA(bool wpaDetected) {
+    this->wpa = wpaDetected;
+}
+
+void NetInfo::setWPA2(bool wpa2Detected) {
+    this->wpa2 = wpa2Detected;
+}
+
 bool NetInfo::hasLock(const NetInfo* ni) {
     for (std::list<const NetInfo*>::const_iterator iter = locks.begin(); iter != locks.end(); ++iter) {
         if (*iter == ni) return true;
@@ -47,14 +78,12 @@ void NetInfo::releaseLock(const NetInfo* ni) {
     pthread_mutex_unlock(&mutex);
 }
 
-NetInfo::NetInfo()
-    : delay(0), lastDelay(0), lost(0), weightedDelay(0), rssi(0), ok(false), maxPackets(0), timeOK(0) {}
-
 void NetInfo::calculateStats(unsigned int timeToDiscard, unsigned int analyzerSleepTime) {
     adquireLock(this);
+    this->maxPackets = timeToDiscard*SECtoMICROSEC/interval;
     
     if (not beacons.empty()) {
-        if (lastDelay != 0) {
+        if ((lastDelay != 0 or timeOK < timeToDiscard) and bestIndex >= 0) {
             numPackets = beacons.size();
             if (not calculateStats(false) and lastDelay < 0.8) timeOK = 0;
             else if (timeOK < timeToDiscard) timeOK += analyzerSleepTime;
@@ -103,6 +132,7 @@ void NetInfo::restartStatsNoLock() {
     beacons.clear();
     lastDelay = 0;
     timeOK = 0;
+    bestIndex = -1;
 }
 
 unsigned int NetInfo::lossPackets(long int diffTimestamp, int beaconInterval) {
