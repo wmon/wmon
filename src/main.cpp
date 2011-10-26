@@ -131,7 +131,7 @@ int main(int argc, char* argv[]) {
 
     vector<string> ifaces = NetManager::list80211Interfaces();
     if (interface.empty() and not ifaces.empty()) interface = ifaces[0];
-    if (interface.empty()) error("Can't select an interface. The program needs root privileges.");
+    if (interface.empty()) error("Can't select an interface.");
 
     FileGUI* fileGUI = NULL;
     if (not filePath.empty()) {
@@ -140,7 +140,7 @@ int main(int argc, char* argv[]) {
     }
     
     NetManager nm(interface);
-    if (not nm.isMonitorInterfaceCreated()) error("Can't create monitor interface.");
+    if (not nm.isMonitorInterfaceCreated()) error("Can't create monitor interface. The program needs root privileges.");
     
     if (not channels.empty()) nm.setChannels(channels);
     nm.setChannelTime(channelTime);
