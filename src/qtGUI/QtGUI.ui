@@ -23,14 +23,28 @@
          <item row="1" column="0">
           <widget class="QComboBox" name="interfaces"/>
          </item>
-         <item row="1" column="1">
+         <item row="1" column="2">
           <widget class="QSpinBox" name="ectime">
            <property name="minimum">
             <number>1</number>
            </property>
           </widget>
          </item>
-         <item row="1" column="2">
+         <item row="0" column="2">
+          <widget class="QLabel" name="ectimeLabel">
+           <property name="text">
+            <string>Empty channel time (seconds)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="interfacesLabel">
+           <property name="text">
+            <string>Interface</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
           <widget class="QSpinBox" name="ctime">
            <property name="minimum">
             <number>5</number>
@@ -40,21 +54,7 @@
          <item row="0" column="1">
           <widget class="QLabel" name="ctimeLabel">
            <property name="text">
-            <string>Channel time (seconds):</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="ectimeLabel">
-           <property name="text">
-            <string>Empty channel time (seconds):</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="interfacesLabel">
-           <property name="text">
-            <string>Interface:</string>
+            <string>Channel time (seconds)</string>
            </property>
           </widget>
          </item>
@@ -237,7 +237,7 @@
    <slot>setChannelTime(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>485</x>
+     <x>401</x>
      <y>61</y>
     </hint>
     <hint type="destinationlabel">
@@ -253,7 +253,7 @@
    <slot>setEmptyChannelTime(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>276</x>
+     <x>606</x>
      <y>61</y>
     </hint>
     <hint type="destinationlabel">
@@ -285,11 +285,11 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>485</x>
+     <x>606</x>
      <y>256</y>
     </hint>
     <hint type="destinationlabel">
-     <x>368</x>
+     <x>489</x>
      <y>259</y>
     </hint>
    </hints>
@@ -305,7 +305,7 @@
      <y>259</y>
     </hint>
     <hint type="destinationlabel">
-     <x>485</x>
+     <x>606</x>
      <y>256</y>
     </hint>
    </hints>
@@ -317,7 +317,7 @@
    <slot>setDisabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>485</x>
+     <x>606</x>
      <y>256</y>
     </hint>
     <hint type="destinationlabel">
@@ -333,7 +333,7 @@
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>368</x>
+     <x>489</x>
      <y>259</y>
     </hint>
     <hint type="destinationlabel">
@@ -365,8 +365,8 @@
    <slot>addChannel(uint)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>585</x>
-     <y>243</y>
+     <x>765</x>
+     <y>260</y>
     </hint>
     <hint type="destinationlabel">
      <x>584</x>

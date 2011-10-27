@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>150</width>
+    <width>196</width>
     <height>300</height>
    </rect>
   </property>
@@ -33,12 +33,15 @@
       <widget class="QPushButton" name="addButton">
        <property name="maximumSize">
         <size>
-         <width>25</width>
+         <width>35</width>
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Add channel</string>
+       </property>
        <property name="text">
-        <string>+</string>
+        <string>Add</string>
        </property>
       </widget>
      </item>
@@ -46,12 +49,15 @@
       <widget class="QPushButton" name="removeButton">
        <property name="maximumSize">
         <size>
-         <width>25</width>
+         <width>30</width>
          <height>16777215</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>Removes the selected channel from the list</string>
+       </property>
        <property name="text">
-        <string>-</string>
+        <string>Del</string>
        </property>
       </widget>
      </item>

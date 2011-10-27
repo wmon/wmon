@@ -19,7 +19,7 @@ QtGUI::QtGUI(const std::vector<std::string>& interfaces, QWidget* parent) : QWid
     ui.modelView->setColumnWidth(NetStatsModel::RSSI, 75);
     ui.modelView->setColumnWidth(NetStatsModel::VALID, 55);
     ui.modelView->setColumnWidth(NetStatsModel::SECURITY, 80);
-    ui.modelView->setColumnWidth(NetStatsModel::SSID, 200);
+    // ui.modelView->setColumnWidth(NetStatsModel::SSID, 200);
     // ui.modelView->horizontalHeader()->setStretchLastSection(true); // For tableView
     
     for (std::vector<std::string>::const_iterator iface = interfaces.begin(); iface != interfaces.end(); ++iface) {
