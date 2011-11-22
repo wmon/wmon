@@ -32,6 +32,10 @@ bool NetStatsSortProxyModel::lessThan(const QModelIndex &left, const QModelIndex
             if (leftData.toDouble() != rightData.toDouble()) return leftData.toDouble() < rightData.toDouble();
             return lessThan(createIndex(left.row(), NetStatsModel::CHANNEL), createIndex(right.row(), NetStatsModel::CHANNEL));
         
+        case QVariant::Int:
+            if (leftData.toInt() != rightData.toInt()) return leftData.toInt() < rightData.toInt();
+            return lessThan(createIndex(left.row(), NetStatsModel::CHANNEL), createIndex(right.row(), NetStatsModel::CHANNEL));
+        
         case QVariant::UInt: // Order by channel - Only channel is UInt
             if (leftData.toUInt() != rightData.toUInt()) return leftData.toUInt() < rightData.toUInt();
             
