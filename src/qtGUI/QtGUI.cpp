@@ -82,3 +82,7 @@ void QtGUI::removeChannel(uint channel) {
     nm->removeChannel(channel);
 }
 
+void QtGUI::selectChannel(uint channel) {
+    nm->lockChannel(channel);
+}
+

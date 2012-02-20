@@ -102,6 +102,13 @@ public:
     void addChannel(unsigned short channel);
     
     /**
+     * Locks the program into a channel
+     *
+     * @param channel Channel
+     */
+    void lockChannel(unsigned short channel);
+    
+    /**
      * Removes a channel of the network manager.
      *
      * @param channel Channel
@@ -277,8 +284,10 @@ private:
     
     /**
      * Notifies to the GUIs a change channel.
+     *
+     * @param channel Channel
      */
-    void notifyChangeScanChannel();
+    void notifyChangeScanChannel(unsigned short channel);
 };
 
 #endif

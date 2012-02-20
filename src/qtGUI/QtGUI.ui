@@ -390,6 +390,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>channelsList</sender>
+   <signal>selectChannel(uint)</signal>
+   <receiver>QtGUI</receiver>
+   <slot>selectChannel(uint)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>632</x>
+     <y>79</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>617</x>
+     <y>4</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>setChannelTime(int)</slot>
@@ -398,5 +414,6 @@
   <slot>setDisappearedAtBottom(bool)</slot>
   <slot>addChannel(uint)</slot>
   <slot>removeChannel(uint)</slot>
+  <slot>selectChannel(uint)</slot>
  </slots>
 </ui>

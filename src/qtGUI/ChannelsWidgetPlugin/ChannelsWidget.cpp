@@ -82,3 +82,8 @@ void ChannelsWidget::removeChannels() {
         model->removeRow(selectedIndexes.at(i).row());
     }
 }
+
+void ChannelsWidget::selectChannel(const QModelIndex& index) {
+    emit(selectChannel(model->data(index, Qt::UserRole).toUInt()));
+}
+

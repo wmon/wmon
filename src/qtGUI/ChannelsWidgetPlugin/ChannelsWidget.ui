@@ -74,8 +74,8 @@
    <slot>addChannel()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>210</x>
-     <y>278</y>
+     <x>149</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>198</x>
@@ -90,8 +90,8 @@
    <slot>removeChannels()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>331</x>
-     <y>283</y>
+     <x>185</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>318</x>
@@ -99,9 +99,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>channelsList</sender>
+   <signal>doubleClicked(QModelIndex)</signal>
+   <receiver>ChannelsWidget</receiver>
+   <slot>selectChannel(QModelIndex)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>53</x>
+     <y>204</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>98</x>
+     <y>259</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>addChannel()</slot>
   <slot>removeChannels()</slot>
+  <slot>selectChannel(QModelIndex)</slot>
  </slots>
 </ui>

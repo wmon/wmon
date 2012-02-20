@@ -174,15 +174,6 @@ private:
     /* Sort methods */
     
     /**
-     * Compares two NetStats to indicate if they are the same network according to their BSSID and SSID.
-     *
-     * @param n1 NetStats to compare
-     * @param n2 NetStats to compare
-     * @return n1 and n2 are the same network
-     */
-    static bool sameNetwork(const NetStats& n1, const NetStats& n2);
-    
-    /**
      * The NetStats i goes before j according to:
      *     - If disappearedAtBottom is true and (loss of i == 1 XOR loss of j == 1) then
      *          Return the network that have loss != 1

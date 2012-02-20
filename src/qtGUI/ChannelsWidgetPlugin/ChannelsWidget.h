@@ -33,10 +33,12 @@ public:
 signals:
     void addChannel(uint channel);
     void removeChannel(uint channel);
+    void selectChannel(uint channel);
 
 private slots:
     void addChannel();
     void removeChannels();
+    void selectChannel(const QModelIndex& index);
 
 private:
     Ui::ChannelsWidget ui;

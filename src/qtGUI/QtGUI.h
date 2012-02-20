@@ -28,6 +28,7 @@ public slots:
     void setDisappearedAtBottom(bool enabled);
     void addChannel(uint channel);
     void removeChannel(uint channel);
+    void selectChannel(uint channel);
 
 private:
     Ui::QtGUI ui;

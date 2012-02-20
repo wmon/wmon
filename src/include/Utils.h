@@ -22,6 +22,7 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include "NetStats.h"
 #include <ostream>
 #include <string>
 
@@ -37,6 +38,15 @@ namespace Utils {
      * @param size Length of the sequence of bytes
      */
     void writeBytes(std::ostream& stream, const void *bytes, int size);
+    
+    /**
+     * Compares two NetStats to indicate if they are the same network according to their BSSID and SSID.
+     *
+     * @param n1 NetStats to compare
+     * @param n2 NetStats to compare
+     * @return n1 and n2 are the same network
+     */
+    bool sameNetwork(const NetStats& n1, const NetStats& n2);
     
     #ifdef DEBUG
     void writeDebug(const std::string& str);

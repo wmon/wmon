@@ -137,7 +137,7 @@ void NetStatsModel::updateStats(const std::list<NetStats>& stats) {
         unsigned int numElem = 0;
         std::list<NetStats>::iterator storedNet;
         for (storedNet = this->stats.begin(); not tr and storedNet != this->stats.end();) {
-            tr = sameNetwork(*storedNet, *net);
+            tr = Utils::sameNetwork(*storedNet, *net);
             if (not tr) {
                 ++storedNet;
                 ++numElem;
@@ -163,11 +163,5 @@ void NetStatsModel::refreshRow(unsigned int row) {
         QModelIndex cellIndex = index(row, col, modelIndex);
         emit dataChanged(cellIndex, cellIndex);
     }
-}
-
-bool NetStatsModel::sameNetwork(const NetStats& n1, const NetStats& n2) {
-    bool cmp = true;
-    for (int i = 0; cmp and i < 6; ++i) cmp = n1.bssid[i] == n2.bssid[i];
-    return cmp and n1.ssid == n2.ssid;
 }
 

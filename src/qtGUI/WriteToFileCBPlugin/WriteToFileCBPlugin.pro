@@ -2,7 +2,7 @@ CONFIG+=designer plugin release
 TEMPLATE=lib 
 TARGET =
 DEPENDPATH += .
-INCLUDEPATH += .
+INCLUDEPATH += ../../include/
 
 HEADERS+=WriteToFileCB.h WriteToFileCBPlugin.h 
 SOURCES += WriteToFileCB.cpp WriteToFileCBPlugin.cpp 

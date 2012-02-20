@@ -25,17 +25,6 @@ private:
     std::list<NetStats> stats;
     
     void refreshRow(unsigned int row);
-    static bool sameNetwork(const NetStats& n1, const NetStats& n2);
-    
-    
-    /*static bool generalSort(const NetStats& i, const NetStats& j);
-    
-    static bool sortByBSSID(const NetStats& i, const NetStats& j);
-    static bool sortByChannel(const NetStats& i, const NetStats& j);
-    static bool sortByUtilization(const NetStats& i, const NetStats& j);
-    static bool sortByLoss(const NetStats& i, const NetStats& j);
-    static bool sortByRSSI(const NetStats& i, const NetStats& j);
-    static bool sortBySSID(const NetStats& i, const NetStats& j);*/
 };
 
 #endif

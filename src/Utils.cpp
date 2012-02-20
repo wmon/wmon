@@ -32,6 +32,12 @@ void Utils::writeBytes(std::ostream& stream, const void *bytes, int size) {
     stream << std::dec;
 }
 
+bool Utils::sameNetwork(const NetStats& n1, const NetStats& n2) {
+    bool cmp = true;
+    for (int i = 0; cmp and i < 6; ++i) cmp = n1.bssid[i] == n2.bssid[i];
+    return cmp and n1.ssid == n2.ssid;
+}
+
 #ifdef DEBUG
 #include <fstream>
 

@@ -107,6 +107,9 @@ void NetManager::addChannel(unsigned short channel) {
     std::list<unsigned short>::iterator it = channels.begin();
     while (it != channels.end() and *it < channel) ++it;
     channels.insert(it, channel);
+    
+    if (channels.size() == 1) channelIt = this->channels.end();
+    
     pthread_mutex_unlock(&channelMutex);
     
     launchControllerThread();
@@ -125,10 +128,28 @@ void NetManager::removeChannel(unsigned short channel) {
         if (currentChannel) {
             lock = false;
             pthread_mutex_unlock(&channelMutex);
-            if (tryToSetAChannel()) notifyChangeScanChannel();
+            if (tryToSetAChannel()) notifyChangeScanChannel(getChannel());
         }
     }
     if (lock) pthread_mutex_unlock(&channelMutex);
+}
+
+void NetManager::lockChannel(unsigned short channel) {
+    pthread_mutex_lock(&channelMutex);
+    std::list<unsigned short>::iterator it = find(channels.begin(), channels.end(), channel);
+    
+    if (it != currentChannelIt) {
+        if (changeChannel(channel)) {
+            runController = false;
+            currentChannelIt = it;
+            notifyChangeScanChannel(channel);
+        }
+    }
+    else runController = not runController;
+    
+    launchControllerThread();
+    
+    pthread_mutex_unlock(&channelMutex);
 }
 
 void NetManager::launchControllerThread() {
@@ -223,17 +244,21 @@ bool NetManager::tryToSetAChannel() {
 
 bool NetManager::setNextChannel() {
     pthread_mutex_lock(&channelMutex);
-    bool res = false;
-    if (++channelIt == channels.end()) channelIt = channels.begin();
     
-    if (changeChannel(*channelIt)) {
-        #ifdef QTGUI
-        cout << "NetManager: Selected channel -> " << *channelIt << endl;
-        #endif
-        currentChannelIt = channelIt;
-        res = true;
+    bool res = false;
+    if (runController and not channels.empty()) {
+        if (++channelIt == channels.end()) channelIt = channels.begin();
+        
+        if (changeChannel(*channelIt)) {
+            #ifdef QTGUI
+            cout << "NetManager: Selected channel -> " << *channelIt << endl;
+            #endif
+            currentChannelIt = channelIt;
+            res = true;
+        }
     }
     pthread_mutex_unlock(&channelMutex);
+    
     return res;
 }
 
@@ -271,7 +296,7 @@ void NetManager::controllerThread_func() {
     while (runController and channels.size() > 1) {
         if (setNextChannel()) {
             packets = 0;
-            notifyChangeScanChannel();
+            notifyChangeScanChannel(getChannel());
             for (int i = emptyChannelTime; runController and i > 0; --i) {
                 GUIEventDispatcher::registerEvent(new RemainingChannelTimeEvent(channelTime - emptyChannelTime + i));
                 sleep(1);
@@ -287,7 +312,8 @@ void NetManager::controllerThread_func() {
     }
     
     GUIEventDispatcher::registerEvent(new RemainingChannelTimeEvent(-1)); // -1 (< 0) is a key value to indicate that the controller thread is stopped
-    if (runController and channels.size() == 1 and tryToSetAChannel()) notifyChangeScanChannel();
+    
+    if (runController and channels.size() == 1 and tryToSetAChannel()) notifyChangeScanChannel(getChannel());
 }
     
 void* NetManager::captureThread_wrapper(void *param) {
@@ -304,8 +330,8 @@ void NetManager::captureThread_func() {
     pcap_loop(captureHandler, -1, gotPacket, (u_char*) this);
 }
 
-void NetManager::notifyChangeScanChannel() {
-    storage.setChannel(getChannel());
-    GUIEventDispatcher::registerEvent(new ChangeChannelEvent(getChannel()));
+void NetManager::notifyChangeScanChannel(unsigned short channel) {
+    storage.setChannel(channel);
+    GUIEventDispatcher::registerEvent(new ChangeChannelEvent(channel));
 }
 

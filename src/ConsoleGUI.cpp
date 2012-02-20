@@ -108,7 +108,7 @@ void ConsoleGUI::updateChannel(unsigned short channel, const std::list<NetStats>
         bool tr = false;
         std::list<NetStats>::iterator storedNet;
         for (storedNet = this->stats.begin(); not tr and storedNet != this->stats.end();) {
-            tr = sameNetwork(*storedNet, *net);
+            tr = Utils::sameNetwork(*storedNet, *net);
             if (not tr) ++storedNet;
         }
         
@@ -163,12 +163,6 @@ void ConsoleGUI::addNetwork(const NetStats& net, int line, bool lineSeparator) {
     
     mvwprintw(listNetworks, line, 0, ss.str().substr(0, ncols - 2).c_str());
     if (lineSeparator) mvwhline(listNetworks, line + 1, 0, 0, ncols - 2);
-}
-
-bool ConsoleGUI::sameNetwork(const NetStats& n1, const NetStats& n2) {
-    bool cmp = true;
-    for (int i = 0; cmp and i < 6; ++i) cmp = n1.bssid[i] == n2.bssid[i];
-    return cmp and n1.ssid == n2.ssid;
 }
 
 void ConsoleGUI::initScreen() {
