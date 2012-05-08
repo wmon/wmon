@@ -27,6 +27,12 @@ LDFLAGS=-lncurses -ltrace -lpcap -liw -lpthread # Dynamic-link compilation
 PROGS=wmon
 OBJECTS=main.o NetManager.o NetID.o NetInfo.o CaptureStorage.o Utils.o AirmonNG.o FileGUI.o ConsoleGUI.o GUI.o GUIEvent.o GUIEventDispatcher.o UpdateChannelEvent.o ChangeChannelEvent.o RemainingChannelTimeEvent.o
 
+# DEBCONFIG
+HOMEPAGE=http://cba.upc.edu/developed-tools/wireless-network-monitor
+MAINTAINER=David Garcia <dagavi@gmail.com>
+VERSION=1.1
+#ARCH=i386
+ARCH=amd64
 
 ## Rules
 
@@ -54,7 +60,7 @@ wmon.deb: $(PROGS)
 	cp wmon DEB/usr/sbin/wmon
 	gzip -c DEBFILES/wmon.1 > DEB/usr/share/man/man1/wmon.1.gz
 	
-	echo "Package: wmon\nVersion: 1.0\nSection: net\nPriority: optional\nArchitecture: i386\nDepends: libpthread-stubs0, libtrace3 (>= 3), libncurses5 (>= 5), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: David Garcia <dagavi@gmail.com>\nHomepage: http://www.cba.upc.edu/wireless-network-monitor\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
+	echo "Package: wmon\nVersion: $(VERSION)\nSection: net\nPriority: optional\nArchitecture: $(ARCH)\nDepends: libpthread-stubs0, libtrace3 (>= 3), libncurses5 (>= 5), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: $(MAINTAINER)\nHomepage: $(HOMEPAGE)\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
 	
 	cd DEB; rm -f DEBIAN/md5sums; md5sum `find . -type f | awk '/.\// { print substr($$0, 3) }'` > DEBIAN/md5sums
 	fakeroot dpkg-deb --build DEB
@@ -70,9 +76,9 @@ wmonGUI.deb: wmonGUI
 	cp wmonGUI DEB/usr/sbin/wmon
 	gzip -c DEBFILES/wmon.1 > DEB/usr/share/man/man1/wmon.1.gz
 	
-	echo "Package: wmon\nVersion: 1.0-GUI\nSection: net\nPriority: optional\nArchitecture: i386\nDepends: libqtgui4 (>= 4.3), libpthread-stubs0, libtrace3 (>= 3), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: David Garcia <dagavi@gmail.com>\nHomepage: http://www.cba.upc.edu/wireless-network-monitor\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
+	echo "Package: wmon\nVersion: $(VERSION)-GUI\nSection: net\nPriority: optional\nArchitecture: $(ARCH)\nDepends: libqtgui4 (>= 4.3), libpthread-stubs0, libtrace3 (>= 3), libiw30, libpcap0.8 (>= 1), iw\nInstalled-Size: 100\nMaintainer: $(MAINTAINER)\nHomepage: $(HOMEPAGE)\nDescription: Wireless Network Monitor\n A Wireless Network Monitor." > DEB/DEBIAN/control
 	
-	echo "[Desktop Entry]\nType=Application\nVersion=1.0-GUI\nName=wmon\nGenericName=Wireless Network Monitor\nComment=Wireless Network Monitor\nIcon=gnome-nettool\nExec=gksudo wmon\nTerminal=false\nCategories=GNOME;Network;\nEncoding=UTF-8" > DEB/usr/share/applications/wmon.desktop
+	echo "[Desktop Entry]\nType=Application\nVersion=$(VERSION)-GUI\nName=wmon\nGenericName=Wireless Network Monitor\nComment=Wireless Network Monitor\nIcon=gnome-nettool\nExec=gksudo wmon\nTerminal=false\nCategories=GNOME;Network;\nEncoding=UTF-8" > DEB/usr/share/applications/wmon.desktop
 	
 	cd DEB; rm -f DEBIAN/md5sums; md5sum `find . -type f | awk '/.\// { print substr($$0, 3) }'` > DEBIAN/md5sums
 	fakeroot dpkg-deb --build DEB
