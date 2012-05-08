@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
                 cout << "    -t seconds, --ctime seconds: Time that the program will be in every channel" << endl;
                 cout << "        By default 8 seconds, 5 is the minimum value" << endl;
                 cout << "    -e seconds, --ectime seconds: Time that the program will be in every channel withouth capture any packet" << endl;
-                cout << "        By default 1 seconds. Needs to be >= than --ctime and 0" << endl;
+                cout << "        By default 1 seconds. Needs to be less or equal than --ctime and greater or equal than 0" << endl;
                 cout << "    -f path, --file path: Generates a output in the indicated file" << endl;
                 exit(0);
             
