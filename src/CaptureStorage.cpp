@@ -28,6 +28,8 @@
 #include <ctime>
 #include <libtrace.h>
 
+unsigned int CaptureStorage::TIMETODISCARD = 5;
+
 CaptureStorage::CaptureStorage() {
     channel = 0;
     runAnalyzer = false;

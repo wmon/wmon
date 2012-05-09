@@ -22,6 +22,7 @@
 #include "NetInfo.h"
 #include <ctime>
 
+int NetInfo::DELAY = 20;
 std::list<const NetInfo*> NetInfo::locks;
 pthread_mutex_t NetInfo::mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t NetInfo::condVar = PTHREAD_COND_INITIALIZER;

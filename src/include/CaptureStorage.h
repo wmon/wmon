@@ -89,8 +89,9 @@ public:
      */
     std::list<NetStats> getNetStats(unsigned short channel) const;
 
+    static unsigned int TIMETODISCARD;        ///< Time, in seconds, that is used to compute the stats (use the last TIMETODISCARD seconds of beacons)
+
 private:
-    static const unsigned int TIMETODISCARD = 5;        ///< Time, in seconds, that is used to compute the stats (use the last TIMETODISCARD seconds of beacons)
     static const unsigned int analyzerSleepTime = 1;    ///< Time that the analyzer thread sleep after check if runAnalyzer is true or compute the stats.
 
     std::map<unsigned short, std::list<NetID> > netsByChannel; ///< Map with a correlation channel-list of networks identifiers (NetID)

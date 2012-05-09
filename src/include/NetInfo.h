@@ -38,7 +38,7 @@
 class NetInfo {
 public:
     static const unsigned int SECtoMICROSEC = 1000000;  ///< Constant to convert seconds to microseconds
-    static const int DELAY = 20;  ///< A packet is considered delayed after that time in microseconds
+    static int DELAY;  ///< A packet is considered delayed after that time in microseconds
     
     /**
      * Constructor.

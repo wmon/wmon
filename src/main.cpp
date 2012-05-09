@@ -67,6 +67,8 @@ int main(int argc, char* argv[]) {
         // Add: TIMETODISCARD ¿Analayzer sleep time?
         {"file",      required_argument, NULL, 'f'}, // File to write the output
         {"help",      no_argument, NULL, 'h'},
+        {"atime",      no_argument, NULL, 'a'},
+        {"dtime",      no_argument, NULL, 'd'},
         {0, 0, 0, 0}
     };
     
@@ -76,7 +78,7 @@ int main(int argc, char* argv[]) {
     unsigned int emptyChannelTime = NetManager::DEFAULTEMPTYCHANNELTIME;
     
     char op;
-    while ((op = getopt_long(argc, argv, "i:c:t:e:f:h",
+    while ((op = getopt_long(argc, argv, "i:c:t:e:f:ha:d:",
                              longOptions, NULL)) != -1) {
         switch (op) {
             case 'i':
@@ -119,6 +121,16 @@ int main(int argc, char* argv[]) {
                 cout << "        By default 1 seconds. Needs to be less or equal than --ctime and greater or equal than 0" << endl;
                 cout << "    -f path, --file path: Generates a output in the indicated file" << endl;
                 exit(0);
+            
+            case 'a':
+                if (not isANumber(optarg)) error("--atime or -a needs a natural number");
+                CaptureStorage::TIMETODISCARD = getNumber(optarg);
+                break;
+            
+            case 'd':
+                if (not isANumber(optarg)) error("--dtime or -d needs a natural number");
+                NetInfo::DELAY = getNumber(optarg);
+                break;
             
             default:
                 error("Unrecognized argument.");
