@@ -27,6 +27,7 @@
 #include <cstring>
 #include <ctime>
 #include <libtrace.h>
+#include <string.h>
 
 CaptureStorage::CaptureStorage() {
     channel = 0;
@@ -40,13 +41,6 @@ CaptureStorage::~CaptureStorage() {
 
 void CaptureStorage::setChannel(unsigned short channel) {
     this->channel = channel;
-}
-
-bool byteCompare(unsigned char array1[], unsigned char array2[], unsigned int size) {
-    for (int i = 0; i < size; ++i) {
-        if (array1[i] != array2[i]) return false;
-    }
-    return true;
 }
 
 void CaptureStorage::addCapture(const unsigned char *packet, unsigned int len, long int sec, long int usec) {
@@ -77,7 +71,7 @@ void CaptureStorage::addCapture(const unsigned char *packet, unsigned int len, l
                 break;
             case 221: // Vendor Specific
                 static unsigned char WPATAG[4] = {0x00, 0x50, 0xf2, 0x01}; // MICROSOFTOUI[3] = {0x00, 0x50, 0xf2};
-                wpa = wpa or byteCompare(((vendorspecific_t*) param)->data, WPATAG, 4);
+                wpa = wpa or memcmp(((vendorspecific_t*) param)->data, WPATAG, 4) == 0;
                 break;
         }
         
@@ -88,12 +82,12 @@ void CaptureStorage::addCapture(const unsigned char *packet, unsigned int len, l
          * This problem should be debugged better.
          */
         unsigned int tagLength = param->length + sizeof(tag_param);
-	    if (tagLength <= len) { // protect against malformed/unexpected beacon parameters
-		    len -= tagLength;
-        	param = (tag_param*) (((char *) param) + tagLength);
-		}
-	    else { //skip analysis of this type of beacons when detected
-		    len = 0;
+        if (tagLength <= len) { // protect against malformed/unexpected beacon parameters
+            len -= tagLength;
+            param = (tag_param*) (((char *) param) + tagLength);
+        }
+        else { //skip analysis of this type of beacons when detected
+            len = 0;
         }
     }
     
@@ -115,15 +109,11 @@ void CaptureStorage::addCapture(const unsigned char *packet, unsigned int len, l
     
     if (neti->getInterval() != bi.interval) neti->setInterval(bi.interval); // Updates dynamic information: Beacon interval
     
-    if (newNetwork) {
-        netsByChannel[channel].push_back(net);
-        neti->setChannel(channel);
-    }
-    else if (neti->getChannel() != channel) {
+    if (not newNetwork and neti->getChannel() != channel) {
         netsByChannel[neti->getChannel()].remove(net);
-        netsByChannel[channel].push_back(net);
-        neti->setChannel(channel);
     }
+    netsByChannel[channel].push_back(net);
+    neti->setChannel(channel);
     
     neti->setWEP(wep);
     neti->setWPA(wpa);

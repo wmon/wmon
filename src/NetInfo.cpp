@@ -27,7 +27,7 @@ pthread_mutex_t NetInfo::mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t NetInfo::condVar = PTHREAD_COND_INITIALIZER;
 
 NetInfo::NetInfo()
-    : delay(0), lastDelay(0), lost(0), weightedDelay(0), rssi(0), ok(false), maxPackets(0), timeOK(0), bestIndex(-1) {}
+    : delay(0), lastDelay(0), lost(0), weightedDelay(0), rssi(0), ok(false), maxPackets(0), security(OPEN), timeOK(0), bestIndex(-1) {}
 
 unsigned int NetInfo::getInterval() const {
     return interval;
@@ -45,16 +45,20 @@ void NetInfo::setChannel(unsigned short channel) {
     this->channel = channel;
 }
 
+void NetInfo::setSecurity(Security sec) {
+    if (security < sec) security = sec;
+}
+
 void NetInfo::setWEP(bool wepDetected) {
-    this->wep = wepDetected;
+    if (wepDetected) setSecurity(WEP);
 }
 
 void NetInfo::setWPA(bool wpaDetected) {
-    this->wpa = wpaDetected;
+    if (wpaDetected) setSecurity(WPA);
 }
 
 void NetInfo::setWPA2(bool wpa2Detected) {
-    this->wpa2 = wpa2Detected;
+    if (wpa2Detected) setSecurity(WPA2);
 }
 
 bool NetInfo::hasLock(const NetInfo* ni) {
@@ -109,10 +113,13 @@ NetStats NetInfo::getStats() const {
     stats.statsTimestamp = statsTimestamp;
     stats.channel = channel;
     
-    if (wpa2) stats.protection = "WPA2";
-    else if (wpa) stats.protection = "WPA";
-    else if (wep) stats.protection = "WEP";
-    else stats.protection = "Open";
+    switch (security) {
+        case OPEN: stats.protection = "Open"; break;
+        case WEP:  stats.protection = "WEP";  break;
+        case WPA:  stats.protection = "WPA";  break;
+        case WPA2: stats.protection = "WPA2"; break;
+        default:   stats.protection = "Unknown";
+    }
     
     stats.delay = delay;
     stats.loss = lost;

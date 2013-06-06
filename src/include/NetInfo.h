@@ -113,6 +113,7 @@ public:
     void restartStats();
 
 private:
+
     // NetDynInfo
     unsigned short channel; ///< Network channel
     unsigned int interval;  ///< Network beacon interval
@@ -127,10 +128,13 @@ private:
     int rssi;               ///< Network RSSI
     bool ok;                ///< Reliability of this stats
     unsigned int maxPackets;///< Max packets that we expect to have according to the beacon interval and the calculate stats time (5 seconds of capture)
-    
-    bool wep;   ///< WEP values detected
-    bool wpa;   ///< WPA values detected
-    bool wpa2;  ///< WPA2 values detected
+
+    enum Security {
+        OPEN = 0,
+        WEP,
+        WPA,
+        WPA2
+    } security;
 
     std::list<BeaconInfo> beacons; ///< List of beacons
 
@@ -144,6 +148,13 @@ private:
     static std::list<const NetInfo*> locks;      ///< Pointers to NetInfo with locks
     static pthread_mutex_t mutex;    ///< Mutex for concurrence control
     static pthread_cond_t condVar;   ///< Conditional variable for concurrence control
+    
+    /**
+     * Set security level.
+     *
+     * @param sec Security level to set.
+     */
+    void setSecurity(Security sec);
     
     /**
      * Check if a NetInfo has a lock.
