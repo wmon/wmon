@@ -109,16 +109,12 @@ void CaptureStorage::addCapture(const unsigned char *packet, unsigned int len, l
     
     if (neti->getInterval() != bi.interval) neti->setInterval(bi.interval); // Updates dynamic information: Beacon interval
     
-    if (newNetwork) {
+    if (newNetwork or neti->getChannel() != channel) {
+        if (not newNetwork) netsByChannel[neti->getChannel()].remove(net); // neti->getChannel() != channel
         netsByChannel[channel].push_back(net);
-        neti->setChannel(channel);
+        neti->setChannel(channel);   
     }
-    else if (neti->getChannel() != channel) {
-        netsByChannel[neti->getChannel()].remove(net);
-        netsByChannel[channel].push_back(net);
-        neti->setChannel(channel);
-    }
-    
+
     neti->setWEP(wep);
     neti->setWPA(wpa);
     neti->setWPA2(wpa2);
